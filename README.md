@@ -7,7 +7,7 @@ This project is an end-to-end Natural Language Processing (NLP) and Machine Lear
 
 The system helps support teams reduce manual ticket sorting, improve response times, and ensure urgent issues are handled quickly.
 
-The application includes a trained machine learning model, an interactive Streamlit web application, and a complete NLP preprocessing pipeline.
+The application includes trained machine learning models, an interactive Streamlit dashboard, and a complete NLP preprocessing pipeline.
 
 
 ## Business Problem
@@ -30,7 +30,7 @@ The system automatically:
 1. Reads customer support ticket text
 2. Classifies tickets into predefined categories
 3. Predicts ticket priority levels
-4. Provides instant results through a web interface
+4. Provides instant results through an interactive dashboard
 
 
 ## Dataset
@@ -52,36 +52,44 @@ For this project, the Ticket Subject and Ticket Description fields were combined
 ## Technologies Used
 
 ### Programming Language
+
 - Python
 
 ### Data Processing
+
 - Pandas
 - NumPy
 
 ### Natural Language Processing
+
 - NLTK
 - spaCy
 
 ### Machine Learning
+
 - Scikit-learn
 
 ### Feature Engineering
+
 - TF-IDF Vectorization
 
 ### Model
+
 - Multinomial Naive Bayes
 
 ### Deployment
+
 - Streamlit
+
 
 
 ## Project Workflow
 
 ### 1. Data Preparation
 
-- Loaded dataset
-- Inspected structure and quality
-- Combined Ticket Subject and Ticket Description into a single text field
+- Loaded the dataset
+- Inspected data quality and structure
+- Combined Ticket Subject and Ticket Description into a single text feature
 
 ### 2. Text Preprocessing
 
@@ -135,12 +143,62 @@ Models were evaluated using:
 
 ## Results
 
-The system successfully:
+The project successfully demonstrates an end-to-end NLP workflow for support ticket automation.
 
-- Classified support tickets into appropriate categories
-- Predicted ticket priority levels
-- Automated ticket routing logic
-- Demonstrated practical NLP and machine learning techniques
+### Key Outcomes
+
+- Automated support ticket classification
+- Automated ticket priority prediction
+- Interactive Streamlit dashboard deployment
+- TF-IDF feature engineering for text representation
+- Machine learning model evaluation using classification metrics
+
+### Business Impact
+
+- Reduces manual ticket sorting effort
+- Improves ticket routing efficiency
+- Helps prioritize urgent customer issues
+- Supports faster response times
+- Enhances overall customer support operations
+
+
+## Streamlit Dashboard
+
+The project includes an interactive Streamlit dashboard that simulates a real-world support operations tool.
+
+### Features
+
+- Enter customer support tickets through a user-friendly interface
+- Automatically classify tickets into support categories
+- Predict ticket priority levels (Low, Medium, High, Critical)
+- Display confidence scores for predictions
+- Color-coded priority indicators for easier interpretation
+- Quick example tickets for testing and demonstrations
+- Wide dashboard layout with ticket input and prediction results displayed side-by-side
+
+### Dashboard Workflow
+
+1. Enter a customer support ticket
+2. Click the **Predict** button
+3. View the predicted:
+   - Ticket Category
+   - Priority Level
+   - Model Confidence Scores
+4. Use the results to assist with ticket routing and prioritization
+
+### Example Output
+
+**Input Ticket**
+
+> I was charged twice for my subscription and need a refund.
+
+**Predicted Category**
+
+> Billing Inquiry
+
+**Predicted Priority**
+
+> High
 
 
 ## Business Value
@@ -148,26 +206,21 @@ The system successfully:
 This solution can help organizations:
 
 ### Faster Ticket Routing
+
 Automatically direct tickets to the correct support team.
 
 ### Improved Response Times
+
 Identify urgent tickets earlier.
 
 ### Reduced Manual Work
+
 Minimize time spent sorting incoming requests.
 
 ### Better Customer Experience
+
 Ensure important issues receive attention quickly.
 
-
-## Streamlit Application
-
-The project includes an interactive Streamlit dashboard where users can:
-
-- Enter support ticket text
-- Predict ticket category
-- Predict ticket priority
-- View model confidence scores
 
 
 ## Project Structure
@@ -193,7 +246,7 @@ Support-Ticket-Classification/
 ├── requirements.txt
 ```
 
-## How to Run
+##  How to Run
 
 ### Install Dependencies
 
@@ -219,9 +272,10 @@ streamlit run app/app.py
 - Data Preprocessing
 - Python Development
 
+---
 
 ## Author
 
 **Charles Mawewe**
 
-Data Science Student | Aspiring Data Engineer | Machine Learning Enthusiast
+Data Science Student | Aspiring Data Engineer | Machine Learning
