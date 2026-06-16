@@ -2,6 +2,14 @@ import streamlit as st
 import pickle
 import os
 
+# Page Config
+
+st.set_page_config(
+    page_title="Support Ticket Classifier",
+    page_icon="🎫",
+    layout="wide"
+)
+
 # Load Models
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -14,98 +22,122 @@ model = pickle.load(open(model_path, "rb"))
 priority_model = pickle.load(open(priority_path, "rb"))
 vectorizer = pickle.load(open(vectorizer_path, "rb"))
 
-# Page Config
-
-st.set_page_config(
-    page_title="Support Ticket Classifier",
-    page_icon="🎫",
-    layout="centered"
-)
 
 # Header
 
-st.title("Support Ticket Classifier & Priority Predictor")
+st.title(" Support Ticket Classification & Prioritization System")
 
 st.markdown("""
 This NLP-powered system automatically classifies customer support tickets
-and predicts their priority level to help support teams respond faster.
+and predicts their priority level to help support teams respond faster and
+manage support operations more efficiently.
 """)
 
 st.divider()
 
-# Examples
 
-st.subheader("Example Tickets")
+# Example Tickets
+
+st.subheader("Quick Examples")
 
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    if st.button("Billing Example"):
-        st.session_state.ticket = "I was charged twice for my subscription."
+    if st.button(" Billing Issue"):
+        st.session_state.ticket = (
+            "I was charged twice for my subscription and need a refund."
+        )
 
 with col2:
-    if st.button("Technical Example"):
-        st.session_state.ticket = "The application crashes every time I log in."
+    if st.button(" Technical Issue"):
+        st.session_state.ticket = (
+            "The application crashes every time I try to log in."
+        )
 
 with col3:
-    if st.button("Cancellation Example"):
-        st.session_state.ticket = "I would like to cancel my subscription immediately."
+    if st.button(" Cancellation Request"):
+        st.session_state.ticket = (
+            "I would like to cancel my subscription immediately."
+        )
 
-# Input
+st.divider()
 
-ticket = st.text_area(
-    "Customer Ticket",
-    value=st.session_state.get("ticket", ""),
-    height=150
-)
 
-# Prediction
+# Two-Column Dashboard Layout
 
-if st.button("Predict"):
+left_col, right_col = st.columns([2, 1])
 
-    if ticket.strip():
 
-        vec = vectorizer.transform([ticket])
+# Left Side - Ticket Input
 
-        category = model.predict(vec)[0]
-        priority = priority_model.predict(vec)[0]
+with left_col:
 
-        st.divider()
+    st.subheader("Customer Support Ticket")
 
-        st.subheader("Prediction Results")
+    ticket = st.text_area(
+        "Enter Ticket",
+        value=st.session_state.get("ticket", ""),
+        height=350,
+        label_visibility="collapsed",
+        placeholder="Enter customer ticket here..."
+    )
 
-        col1, col2 = st.columns(2)
+    predict = st.button(" Predict")
 
-        with col1:
+
+# Right Side - Results
+
+with right_col:
+
+    st.subheader("Prediction Results")
+
+    if predict:
+
+        if ticket.strip():
+
+            vec = vectorizer.transform([ticket])
+
+            category = model.predict(vec)[0]
+            priority = priority_model.predict(vec)[0]
+
             st.metric(
                 label="Ticket Category",
                 value=category
             )
 
-        with col2:
             st.metric(
                 label="Priority Level",
                 value=priority
             )
 
-        # Color-coded priority
-        if priority.lower() == "critical":
-            st.error("🔴 Critical Priority")
-        elif priority.lower() == "high":
-            st.warning("🟠 High Priority")
-        elif priority.lower() == "medium":
-            st.info("🟡 Medium Priority")
+            # Priority Badge
+            if priority.lower() == "critical":
+                st.error("🔴 Critical Priority")
+
+            elif priority.lower() == "high":
+                st.warning("🟠 High Priority")
+
+            elif priority.lower() == "medium":
+                st.info("🟡 Medium Priority")
+
+            else:
+                st.success("🟢 Low Priority")
+
+            st.divider()
+
+            # Confidence Scores
+            st.subheader("Model Confidence")
+
+            category_conf = model.predict_proba(vec).max() * 100
+            priority_conf = priority_model.predict_proba(vec).max() * 100
+
+            st.write(
+                f"**Category Confidence:** {category_conf:.2f}%"
+            )
+
+            st.write(
+                f"**Priority Confidence:** {priority_conf:.2f}%"
+            )
+
         else:
-            st.success("🟢 Low Priority")
-
-        # Confidence Scores
-        st.subheader("Model Confidence")
-
-        category_conf = model.predict_proba(vec).max() * 100
-        priority_conf = priority_model.predict_proba(vec).max() * 100
-
-        st.write(f"Category Confidence: **{category_conf:.2f}%**")
-        st.write(f"Priority Confidence: **{priority_conf:.2f}%**")
-
-    else:
-        st.warning("Please enter a customer support ticket.")
+            st.warning("Please enter a support ticket.")
